@@ -325,20 +325,21 @@ def yes_or_no(user_input):
     elif is_yes(user_input):
         result = 'yes'
     else:
-        again = input("WRONG INPUT. again answer: ")
-        yes_or_no(again)
-    
+        print("WRONG INPUT. again answer")
+        result = 'again'
     return result
 
 
 def main():
+
     print("Play Baseball")
+    user_input = 999
     random_number = str(get_not_duplicated_three_digit_number())
     print("Random Number is : ", random_number)
-    user_input = 999
+    do_game = True
 
-    while user_input != '0': 
-        user_input = input("Input guess number : ")
+    while do_game: 
+        user_input = input("Input guess : ")
         
         if user_input == '0':
             break
@@ -346,15 +347,23 @@ def main():
             print("Wrong Input, Input again")
             continue
 
-        print(f"user input: {user_input}, random number: {random_number}")
+        #print(f"user input: {user_input}, random number: {random_number}")
         strikes, balls = get_strikes_or_ball(user_input,random_number)
         print(f"strikes: {strikes}, balls: {balls}")
 
         if strikes == 3:
-            answer = input("YOU WIN! one more? (Y/N): ")
-            if yes_or_no(answer) == 'no':
-                break
-        print("")
+
+            while True:
+                answer = input("YOU WIN! one more(Y/N) ?")
+                if is_yes(answer):
+                    random_number = str(get_not_duplicated_three_digit_number())
+                    print("Random Number is : ", random_number)
+                    break
+                elif is_no(answer):
+                    do_game = False
+                    break
+                else:
+                    print("WRONG INPUT. again answer")
 
     print("Thank you for using this program")
     print("End of the Game")
